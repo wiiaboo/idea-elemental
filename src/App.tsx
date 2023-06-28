@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import redSymbol from "/red.svg";
 import yellowSymbol from "/yellow.svg";
 import blueSymbol from "/blue.svg";
