@@ -1,0 +1,40 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+table button {
+  width: 64px;
+  height: 64px;
+}
+
+button.reveal[data-correct="true"] {
+  background-color: #20c0b0;
+  color: white;
+  font-weight: bold;
+}
+
+button.reveal[data-correct="false"] {
+  background-color: #ff4d4d;
+  color: white;
+  font-weight: bold;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+h2 {
+  margin-top: 0;
+}
