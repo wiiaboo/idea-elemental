@@ -1,111 +1,56 @@
 import React, { useState } from "react";
-import redSymbol from "/red.svg";
-import yellowSymbol from "/yellow.svg";
-import blueSymbol from "/blue.svg";
+import availableBoards from "./board.json";
 import "./App.css";
 
 declare global {
   const __COMMIT_HASH__: string;
 }
 
-// 4x3の盤面は14パターンしかない
-const availableBoards = [
-  [
-    [1, -2, 2, 4],
-    [-1, 2, 3, -4],
-    [1, 3, -3, 4],
-  ],
-  [
-    [1, -2, 2, 4],
-    [-1, 2, 4, -4],
-    [1, 3, -3, 3],
-  ],
-  [
-    [1, 2, 4, -4],
-    [-1, -2, 2, 4],
-    [1, 3, -3, 3],
-  ],
-  [
-    [1, 3, -3, 3],
-    [-1, 2, 4, -4],
-    [1, -2, 2, 4],
-  ],
-  [
-    [1, 3, -3, 3],
-    [-1, -2, 2, 4],
-    [1, 2, 4, -4],
-  ],
-  [
-    [1, 3, -3, 4],
-    [-1, 2, 3, -4],
-    [1, -2, 2, 4],
-  ],
-  // [
-  //   [1, 2, 3, 4],
-  //   [-1, -2, -3, -4],
-  //   [1, 2, 3, 4],
-  // ],
-  [
-    [-1, 1, 3, 4],
-    [1, 3, -3, -4],
-    [2, -2, 2, 4],
-  ],
-  [
-    [1, 3, -3, 4],
-    [-1, 1, 3, -4],
-    [2, -2, 2, 4],
-  ],
-  [
-    [-1, 1, -3, 3],
-    [1, 2, 3, 4],
-    [2, -2, 4, -4],
-  ],
-  // [
-  //   [-1, 1, 3, 4],
-  //   [1, 2, -3, -4],
-  //   [2, -2, 3, 4],
-  // ],
-  [
-    [-1, 1, 4, -4],
-    [1, 2, 3, 4],
-    [2, -2, -3, 3],
-  ],
-  // [
-  //   [1, 2, -3, 3],
-  //   [-1, -2, 3, 4],
-  //   [1, 2, 4, -4],
-  // ],
-  [
-    [2, -2, 2, 4],
-    [1, 3, -3, -4],
-    [-1, 1, 3, 4],
-  ],
-  [
-    [2, -2, 2, 4],
-    [-1, 1, 3, -4],
-    [1, 3, -3, 4],
-  ],
-  [
-    [2, -2, -3, 3],
-    [1, 2, 3, 4],
-    [-1, 1, 4, -4],
-  ],
-  // [
-  //   [2, -2, 3, 4],
-  //   [1, 2, -3, -4],
-  //   [-1, 1, 3, 4],
-  // ],
-  [
-    [2, -2, 4, -4],
-    [1, 2, 3, 4],
-    [-1, 1, -3, 3],
-  ],
-  // [
-  //   [1, 2, 4, -4],
-  //   [-1, -2, 3, 4],
-  //   [1, 2, -3, 3],
-  // ],
-] as const;
+enum SymbolColor {
+  Blue = 1,
+  Red = 2,
+  Yellow = 3,
+}
+
+function expandBoard(baseBoard: number[][]) {
+  const board = [
+    [0, -1, 0, -1, 0, -1, 0],
+    [-1, undefined, -1, undefined, -1, undefined, -1],
+    [0, -1, 0, -1, 0, -1, 0],
+    [-1, undefined, -1, undefined, -1, undefined, -1],
+    [0, -1, 0, -1, 0, -1, 0],
+  ];
+
+  for (let x = 0; x < 3; x++) {
+    for (let y = 0; y < 4; y++) {
+      board[x * 2][y * 2] = baseBoard[x][y];
+    }
+  }
+
+  return board;
+}
+
+function findSibling(
+  board: number[][],
+  x: number,
+  y: number,
+  color: SymbolColor
+) {
+  const siblings = [];
+  if (board[x - 1]?.[y] === color) {
+    siblings.push([x - 1, y]);
+  }
+  if (board[x + 1]?.[y] === color) {
+    siblings.push([x + 1, y]);
+  }
+  if (board[x]?.[y - 1] === color) {
+    siblings.push([x, y - 1]);
+  }
+  if (board[x]?.[y + 1] === color) {
+    siblings.push([x, y + 1]);
+  }
+  return siblings;
+}
 
 const generateBoard = (ideaElementalII = false) => {
   // 自分のシンボルは○×△□の4種類
@@ -115,34 +60,39 @@ const generateBoard = (ideaElementalII = false) => {
 
   const boardIndex = Math.floor(Math.random() * availableBoards.length);
   const baseBoard = availableBoards[boardIndex];
-  const board = [
-    [0, -1, 0, -1, 0, -1, 0],
-    [-1, undefined, -1, undefined, -1, undefined, -1],
-    [0, -1, 0, -1, 0, -1, 0],
-    [-1, undefined, -1, undefined, -1, undefined, -1],
-    [0, -1, 0, -1, 0, -1, 0],
-  ];
+  const board = expandBoard(baseBoard);
 
-  let targetBlueSymbol = [-1, -1];
-  let targetMySymbol = [-1, -1];
+  // 担当の青シンボルを探す
+  const targetBlueSymbol = [-1, mySymbol];
+  for (let x = 0; x < 3; x++) {
+    if (baseBoard[x][mySymbol] === SymbolColor.Blue) {
+      targetBlueSymbol[0] = x;
+      break;
+    }
+  }
 
-  for (let color = 1; color <= 4; ++color) {
-    let isRed = Math.random() < 0.5;
-    for (let x = 0; x < 3; x++) {
-      for (let y = 0; y < 4; y++) {
-        if (baseBoard[x][y] === color) {
-          board[x * 2][y * 2] = isRed ? 2 : 3;
-          if (color - 1 === mySymbol && !myTeam === isRed) {
-            targetMySymbol = [x, y];
-          }
-          isRed = !isRed;
-        }
-        if (baseBoard[x][y] === -color) {
-          board[x * 2][y * 2] = 1;
-          if (Math.abs(color) - 1 === mySymbol) {
-            targetBlueSymbol = [x, y];
-          }
-        }
+  // 上下左右から担当のシンボルを探す
+  const targetMySymbols = findSibling(
+    baseBoard,
+    targetBlueSymbol[0],
+    targetBlueSymbol[1],
+    myTeam + 2
+  );
+  let targetMySymbol = targetMySymbols[0];
+
+  if (targetMySymbols.length > 1) {
+    for (const availableSymbol of targetMySymbols) {
+      const siblingBlue = findSibling(
+        baseBoard,
+        availableSymbol[0],
+        availableSymbol[1],
+        SymbolColor.Blue
+      );
+      const isSiblingMyself = siblingBlue.every(([x, y]) => {
+        return x === targetBlueSymbol[0] && y === targetBlueSymbol[1];
+      });
+      if (isSiblingMyself) {
+        targetMySymbol = availableSymbol;
       }
     }
   }
@@ -160,7 +110,7 @@ const generateBoard = (ideaElementalII = false) => {
 
   board[answerPosition[0]][answerPosition[1]] = -2;
 
-  return { board, mySymbol, myTeam };
+  return { board: board.flatMap((a) => a), mySymbol, myTeam };
 };
 
 function getSymbolString(symbol: number) {
@@ -177,15 +127,16 @@ function getSymbolString(symbol: number) {
 }
 
 function App() {
-  const [{ board, myTeam, mySymbol }, setBoard] = useState(generateBoard());
+  const [game, setGame] = useState(generateBoard());
   const [ideaElementalII, setIdeaElementalII] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(-1);
+  const { board, myTeam, mySymbol } = game;
 
   const updateMode = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setIdeaElementalII(e.target.checked);
-      setBoard(generateBoard(e.target.checked));
+      setGame(generateBoard(e.target.checked));
       setShowAnswer(false);
     },
     []
@@ -196,9 +147,9 @@ function App() {
       setShowAnswer(true);
       setClickedIndex(index);
       setTimeout(() => {
-        setBoard(generateBoard(ideaElementalII));
+        setGame(generateBoard(ideaElementalII));
         setShowAnswer(false);
-      }, 3500);
+      }, 3000);
     },
     [ideaElementalII]
   );
@@ -215,53 +166,52 @@ function App() {
           <input type="checkbox" onChange={updateMode} />
           Idea Elemental II
         </label>
-        <table>
-          <tbody>
-            {board.map((row, i) => (
-              <tr key={i}>
-                {row.map((cell, j) => (
-                  <td key={j}>
-                    {cell === undefined ? (
-                      ""
-                    ) : cell < 0 ? (
-                      <button
-                        data-correct={cell === -2}
-                        onClick={() => revealAnswer(i * row.length + j)}
-                        className={
-                          showAnswer &&
-                          (clickedIndex === i * row.length + j || cell === -2)
-                            ? "reveal"
-                            : ""
-                        }
-                      >
-                        {showAnswer
-                          ? cell === -2
-                            ? "○"
-                            : clickedIndex === i * row.length + j
-                            ? "✖️"
-                            : ""
-                          : "？"}
-                      </button>
-                    ) : cell === 0 ? (
-                      ""
-                    ) : cell === 1 ? (
-                      <img src={blueSymbol} />
-                    ) : cell === 2 ? (
-                      <img src={redSymbol} />
-                    ) : (
-                      <img src={yellowSymbol} />
-                    )}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="table">
+          {board.map((cell, i) =>
+            cell === undefined ? (
+              <div key={i} />
+            ) : cell < 0 ? (
+              <button
+                key={i}
+                data-correct={cell === -2}
+                onClick={() => revealAnswer(i)}
+                className={
+                  showAnswer && (clickedIndex === i || cell === -2)
+                    ? "reveal"
+                    : ""
+                }
+              >
+                {showAnswer
+                  ? cell === -2
+                    ? "○"
+                    : clickedIndex === i
+                    ? "✖️"
+                    : ""
+                  : "？"}
+              </button>
+            ) : cell === 0 ? (
+              <div key={i} />
+            ) : cell === 1 ? (
+              <div className="icon blue" key={i} />
+            ) : cell === 2 ? (
+              <div className="icon red" key={i} />
+            ) : (
+              <div className="icon yellow" key={i} />
+            )
+          )}
+        </div>
+
         <div className="subtle">
           <a href="https://github.com/tmyt/idea-elemental">
             Version: {__COMMIT_HASH__}
           </a>
         </div>
+        {/*
+          <button onClick={() => console.log(board)}>debug</button>
+          <button onClick={() => setGame(generateBoard(ideaElementalII))}>
+            update
+          </button>
+        */}
       </div>
     </>
   );

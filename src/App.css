@@ -12,38 +12,62 @@
   color: #888;
 }
 
+div.table {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
 table {
   border: 0;
   border-collapse: collapse;
 }
 
-table button {
+.table button {
   width: 64px;
   height: 64px;
   border: 1px solid #888;
   color: white;
 }
 
+.table button[data-correct="true"] {
+  border-width: 4px;
+}
+
 @media (prefers-color-scheme: light) {
-  table button {
+  .table button {
     color: #222;
   }
   
 }
 
-table img {
+.table .icon {
   width: 64px;
   height: 64px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.icon.blue {
+  background-image: url("/blue.svg");
+}
+
+.icon.yellow {
+  background-image: url("/yellow.svg");
+}
+
+.icon.red {
+  background-image: url("/red.svg");
 }
 
 @media (max-width: 400px) {
-  table button {
+  .table button {
     width: 42px;
     height: 42px;
     padding: 8px;
   }
 
-  table img {
+  .table .icon {
     width: 42px;
     height: 42px;
   }
