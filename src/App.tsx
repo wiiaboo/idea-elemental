@@ -162,9 +162,9 @@ function App() {
     <>
       <div className="card">
         <h2>
-          {t("YourSymbol")}: {getSymbolString(mySymbol)}
+          {t("YourSymbol")} {getSymbolString(mySymbol)}
           <br />
-          {t("YourDebuff")}: {myTeam === 0 ? "α" : "β"}
+          {t("YourDebuff")} {myTeam === 0 ? "α" : "β"}
         </h2>
         <label>
           <input type="checkbox" onChange={updateMode} />
