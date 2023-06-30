@@ -4,14 +4,14 @@ import { initReactI18next } from "react-i18next";
 const resources = {
   en: {
     translation: {
-      YourSymbol: "YourSymbol:",
+      YourSymbol: "YourMarker:",
       YourDebuff: "YourDebuff:",
       IdeaElemental2: "Idea Elemental II",
     },
   },
   ja: {
     translation: {
-      YourSymbol: "あなたのシンボル:",
+      YourSymbol: "あなたのマーカー:",
       YourDebuff: "あなたのデバフ:",
       IdeaElemental2: "イデアエレメンタル 2回目",
     },
