@@ -29,9 +29,9 @@ table {
   color: white;
 }
 
-.table button[data-correct="true"] {
+/* .table button[data-correct="true"] {
   border-width: 4px;
-}
+} */
 
 @media (prefers-color-scheme: light) {
   .table button {
