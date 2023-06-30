@@ -23,11 +23,15 @@ describe("boardGenerator", () => {
         for (let i = 0; i < 4; i++) {
           const target = findBlueSymbol(board, i);
           const [x, y] = findMySymbol(board, target, SymbolColor.Red);
+          expect(x).toBeGreaterThan(-1);
+          expect(y).toBeGreaterThan(-1);
           expect(board[x][y]).toBe(SymbolColor.Red);
         }
         for (let i = 0; i < 4; i++) {
           const target = findBlueSymbol(board, i);
           const [x, y] = findMySymbol(board, target, SymbolColor.Yellow);
+          expect(x).toBeGreaterThan(-1);
+          expect(y).toBeGreaterThan(-1);
           expect(board[x][y]).toBe(SymbolColor.Yellow);
         }
       }

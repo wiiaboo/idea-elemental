@@ -109,16 +109,19 @@ export const generateBoard = (ideaElementalII = false) => {
   // 自分のシンボルは○×△□の4種類
   const mySymbol = chooseSymbol();
   // 自分の担当はαβの2種類
-  const myTeam = chooseDebuff();
+  const myDebuff = chooseDebuff();
+  // 自分の担当カラー
+  const myColor = myDebuff === 0 ? SymbolColor.Red : SymbolColor.Yellow;
 
-  const baseBoard = availableBoards[chooseBoard()];
+  const boardId = chooseBoard();
+  const baseBoard = availableBoards[boardId];
   const board = expandBoard(baseBoard);
 
   // 担当の青シンボルを探す
   const targetBlueSymbol = findBlueSymbol(baseBoard, mySymbol);
 
   // 上下左右から担当のシンボルを探す
-  const targetMySymbol = findMySymbol(baseBoard, targetBlueSymbol, myTeam);
+  const targetMySymbol = findMySymbol(baseBoard, targetBlueSymbol, myColor);
 
   const answerPosition = [
     targetBlueSymbol[0] * 2 - (targetBlueSymbol[0] - targetMySymbol[0]),
@@ -133,5 +136,5 @@ export const generateBoard = (ideaElementalII = false) => {
 
   board[answerPosition[0]][answerPosition[1]] = -2;
 
-  return { board: board.flatMap((a) => a), mySymbol, myTeam };
+  return { board: board.flatMap((a) => a), mySymbol, myDebuff, boardId };
 };
