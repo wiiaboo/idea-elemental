@@ -8,7 +8,7 @@ declare global {
   const __COMMIT_HASH__: string;
 }
 
-// 4x3の盤面は~~15~~ 8パターンしかない
+// 4x3の盤面は14パターンしかない
 const availableBoards = [
   [
     [1, -2, 2, 4],
@@ -245,11 +245,11 @@ function App() {
                     ) : cell === 0 ? (
                       ""
                     ) : cell === 1 ? (
-                      <img src={blueSymbol} width={64} height={64} />
+                      <img src={blueSymbol} />
                     ) : cell === 2 ? (
-                      <img src={redSymbol} width={64} height={64} />
+                      <img src={redSymbol} />
                     ) : (
-                      <img src={yellowSymbol} width={64} height={64} />
+                      <img src={yellowSymbol} />
                     )}
                   </td>
                 ))}

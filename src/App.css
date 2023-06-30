@@ -18,6 +18,23 @@ table button {
   height: 64px;
 }
 
+table img {
+  width: 64px;
+  height: 64px;
+}
+
+@media (max-width: 400px) {
+  table button {
+    width: 48px;
+    height: 48px;
+  }
+
+  table img {
+    width: 48px;
+    height: 48px;
+  }
+}
+
 button.reveal[data-correct="true"] {
   background-color: #20c0b0;
   color: white;
