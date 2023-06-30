@@ -257,7 +257,11 @@ function App() {
             ))}
           </tbody>
         </table>
-        <div className="subtle">Version: {__COMMIT_HASH__}</div>
+        <div className="subtle">
+          <a href="https://github.com/tmyt/idea-elemental">
+            Version: {__COMMIT_HASH__}
+          </a>
+        </div>
       </div>
     </>
   );
