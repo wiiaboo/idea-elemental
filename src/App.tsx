@@ -215,7 +215,7 @@ function App() {
           <input type="checkbox" onChange={updateMode} />
           Idea Elemental II
         </label>
-        <table border={1}>
+        <table>
           <tbody>
             {board.map((row, i) => (
               <tr key={i}>

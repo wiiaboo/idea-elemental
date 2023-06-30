@@ -6,16 +6,29 @@
 }
 
 .card {
-  padding: 2em;
 }
 
 .read-the-docs {
   color: #888;
 }
 
+table {
+  border: 0;
+  border-collapse: collapse;
+}
+
 table button {
   width: 64px;
   height: 64px;
+  border: 1px solid #888;
+  color: white;
+}
+
+@media (prefers-color-scheme: light) {
+  table button {
+    color: #222;
+  }
+  
 }
 
 table img {
@@ -25,13 +38,14 @@ table img {
 
 @media (max-width: 400px) {
   table button {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
+    padding: 8px;
   }
 
   table img {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 }
 
@@ -59,5 +73,5 @@ h2 {
 .subtle {
   color: #888;
   font-size: 0.85rem;
-  margin-top: 16px;
+  margin-top: 32px;
 }
