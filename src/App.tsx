@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import availableBoards from "./board.json";
+import "./lib/i18n";
 import "./App.css";
 
 declare global {
@@ -127,6 +129,8 @@ function getSymbolString(symbol: number) {
 }
 
 function App() {
+  const { t } = useTranslation();
+
   const [game, setGame] = useState(generateBoard());
   const [ideaElementalII, setIdeaElementalII] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
@@ -158,13 +162,13 @@ function App() {
     <>
       <div className="card">
         <h2>
-          YourSymbol: {getSymbolString(mySymbol)}
+          {t("YourSymbol")}: {getSymbolString(mySymbol)}
           <br />
-          YourDebuff: {myTeam === 0 ? "α" : "β"}
+          {t("YourDebuff")}: {myTeam === 0 ? "α" : "β"}
         </h2>
         <label>
           <input type="checkbox" onChange={updateMode} />
-          Idea Elemental II
+          {t("IdeaElemental2")}
         </label>
         <div className="table">
           {board.map((cell, i) =>
@@ -210,7 +214,7 @@ function App() {
           <button onClick={() => console.log(board)}>debug</button>
           <button onClick={() => setGame(generateBoard(ideaElementalII))}>
             update
-          </button>
+         </button>
         */}
       </div>
     </>
