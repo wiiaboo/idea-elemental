@@ -5,9 +5,6 @@
   text-align: center;
 }
 
-.card {
-}
-
 .read-the-docs {
   color: #888;
 }
@@ -37,7 +34,6 @@ table {
   .table button {
     color: #222;
   }
-  
 }
 
 .table .icon {

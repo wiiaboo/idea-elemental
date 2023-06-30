@@ -8,8 +8,6 @@ declare global {
   const __COMMIT_HASH__: string;
 }
 
-
-
 function getSymbolString(symbol: number) {
   switch (symbol) {
     case 0:
@@ -23,6 +21,17 @@ function getSymbolString(symbol: number) {
   }
 }
 
+function getIconClassName(symbol: number) {
+  switch (symbol) {
+    case 1:
+      return "icon blue";
+    case 2:
+      return "icon red";
+    case 3:
+      return "icon yellow";
+  }
+}
+
 function App() {
   const { t } = useTranslation();
 
@@ -30,7 +39,7 @@ function App() {
   const [ideaElementalII, setIdeaElementalII] = useState(false);
   const [showAnswer, setShowAnswer] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(-1);
-  const { board, myTeam, mySymbol } = game;
+  const { board, myDebuff, mySymbol, boardId } = game;
 
   const updateMode = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,11 +64,11 @@ function App() {
 
   return (
     <>
-      <div className="card">
+      <div>
         <h2>
           {t("YourSymbol")} {getSymbolString(mySymbol)}
           <br />
-          {t("YourDebuff")} {myTeam === 0 ? "α" : "β"}
+          {t("YourDebuff")} {myDebuff === 0 ? "α" : "β"}
         </h2>
         <label>
           <input type="checkbox" onChange={updateMode} />
@@ -88,19 +97,14 @@ function App() {
                     : ""
                   : "？"}
               </button>
-            ) : cell === 0 ? (
-              <div key={i} />
-            ) : cell === 1 ? (
-              <div className="icon blue" key={i} />
-            ) : cell === 2 ? (
-              <div className="icon red" key={i} />
             ) : (
-              <div className="icon yellow" key={i} />
+              <div className={getIconClassName(cell)} key={i} />
             )
           )}
         </div>
 
         <div className="subtle">
+          Board ID: {boardId} |{" "}
           <a href="https://github.com/tmyt/idea-elemental">
             Version: {__COMMIT_HASH__}
           </a>
