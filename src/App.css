@@ -91,3 +91,19 @@ h2 {
   color: #888;
   font-size: 0.85rem;
 }
+
+div.line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+div.line img {
+  height: 38px;
+  width: 38px;
+  object-fit: contain;
+  object-position: center;
+  margin-left: 12px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.65));
+}

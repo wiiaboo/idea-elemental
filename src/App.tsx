@@ -11,13 +11,22 @@ declare global {
 function getSymbolString(symbol: number) {
   switch (symbol) {
     case 0:
-      return "○";
+      return "/marker_circle.svg";
     case 1:
-      return "×";
+      return "/marker_cross.svg";
     case 2:
-      return "△";
+      return "/marker_triangle.svg";
     case 3:
-      return "□";
+      return "/marker_square.svg";
+  }
+}
+
+function getDebuffString(debuff: number) {
+  switch (debuff) {
+    case 0:
+      return "/debuff_alpha.svg";
+    case 1:
+      return "/debuff_beta.svg";
   }
 }
 
@@ -66,9 +75,14 @@ function App() {
     <>
       <div>
         <h2>
-          {t("YourSymbol")} {getSymbolString(mySymbol)}
-          <br />
-          {t("YourDebuff")} {myDebuff === 0 ? "α" : "β"}
+          <div className="line">
+            <span>{t("YourSymbol")}</span>
+            <img src={getSymbolString(mySymbol)} height={32} />
+          </div>
+          <div className="line">
+            <span>{t("YourDebuff")}</span>
+            <img src={getDebuffString(myDebuff)} height={32} />
+          </div>
         </h2>
         <div className="checkbox-wrapper-13">
           <input
