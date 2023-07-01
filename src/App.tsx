@@ -1,44 +1,17 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { generateBoard } from "./lib/boardGenerator";
+import { ANSWER_CELL, generateBoard } from "./lib/boardGenerator";
 import "./lib/i18n";
-import "./App.css";
+import "./App.scss";
+import {
+  getButtonClassName,
+  getDebuffClassName,
+  getIconClassName,
+  getMarkerClassName,
+} from "./lib/classNames";
 
 declare global {
   const __COMMIT_HASH__: string;
-}
-
-function getSymbolString(symbol: number) {
-  switch (symbol) {
-    case 0:
-      return "/marker_circle.svg";
-    case 1:
-      return "/marker_cross.svg";
-    case 2:
-      return "/marker_triangle.svg";
-    case 3:
-      return "/marker_square.svg";
-  }
-}
-
-function getDebuffString(debuff: number) {
-  switch (debuff) {
-    case 0:
-      return "/debuff_alpha.svg";
-    case 1:
-      return "/debuff_beta.svg";
-  }
-}
-
-function getIconClassName(symbol: number) {
-  switch (symbol) {
-    case 1:
-      return "icon blue";
-    case 2:
-      return "icon red";
-    case 3:
-      return "icon yellow";
-  }
 }
 
 function App() {
@@ -49,12 +22,14 @@ function App() {
   const [showAnswer, setShowAnswer] = useState(false);
   const [clickedIndex, setClickedIndex] = useState(-1);
   const { board, myDebuff, mySymbol, boardId } = game;
+  const timerIdRef = React.useRef<number | undefined>(undefined);
 
   const updateMode = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setIdeaElementalII(e.target.checked);
       setGame(generateBoard(e.target.checked));
       setShowAnswer(false);
+      clearTimeout(timerIdRef.current);
     },
     []
   );
@@ -63,7 +38,7 @@ function App() {
     (index: number) => {
       setShowAnswer(true);
       setClickedIndex(index);
-      setTimeout(() => {
+      timerIdRef.current = window.setTimeout(() => {
         setGame(generateBoard(ideaElementalII));
         setShowAnswer(false);
       }, 3000);
@@ -77,11 +52,11 @@ function App() {
         <h2>
           <div className="line">
             <span>{t("YourSymbol")}</span>
-            <img src={getSymbolString(mySymbol)} height={32} />
+            <div className={getMarkerClassName(mySymbol)} />
           </div>
           <div className="line">
             <span>{t("YourDebuff")}</span>
-            <img src={getDebuffString(myDebuff)} height={32} />
+            <div className={getDebuffClassName(myDebuff)} />
           </div>
         </h2>
         <div className="checkbox-wrapper-13">
@@ -100,22 +75,10 @@ function App() {
             ) : cell < 0 ? (
               <button
                 key={i}
-                data-correct={cell === -2}
+                className={getButtonClassName(clickedIndex === i, showAnswer)}
+                data-correct={cell === ANSWER_CELL}
                 onClick={() => revealAnswer(i)}
-                className={
-                  showAnswer && (clickedIndex === i || cell === -2)
-                    ? "reveal"
-                    : ""
-                }
-              >
-                {showAnswer
-                  ? cell === -2
-                    ? "○"
-                    : clickedIndex === i
-                    ? "✖️"
-                    : ""
-                  : "？"}
-              </button>
+              />
             ) : (
               <div className={getIconClassName(cell)} key={i} />
             )
@@ -128,12 +91,6 @@ function App() {
             Version: {__COMMIT_HASH__}
           </a>
         </div>
-        {/*
-          <button onClick={() => console.log(board)}>debug</button>
-          <button onClick={() => setGame(generateBoard(ideaElementalII))}>
-            update
-         </button>
-        */}
       </div>
     </>
   );

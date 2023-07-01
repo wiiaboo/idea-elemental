@@ -6,6 +6,8 @@ export enum SymbolColor {
   Yellow = 3,
 }
 
+export const ANSWER_CELL = -2;
+
 function expandBoard(baseBoard: number[][]) {
   const board = [
     [0, -1, 0, -1, 0, -1, 0],
@@ -134,7 +136,7 @@ export const generateBoard = (ideaElementalII = false) => {
     answerPosition[1] = 6 - answerPosition[1];
   }
 
-  board[answerPosition[0]][answerPosition[1]] = -2;
+  board[answerPosition[0]][answerPosition[1]] = ANSWER_CELL;
 
   return { board: board.flatMap((a) => a), mySymbol, myDebuff, boardId };
 };

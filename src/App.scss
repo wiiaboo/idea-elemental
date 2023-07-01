@@ -1,0 +1,150 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+div.table {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.table button {
+  width: 64px;
+  height: 64px;
+  border: 1px solid #888;
+  color: white;
+
+  @media (prefers-color-scheme: light) {
+    color: #222;
+  }
+
+  &::after {
+    content: "？";
+  }
+
+  &.reveal::after {
+    content: "";
+  }
+
+  &[data-correct="true"].reveal {
+    background-color: #20c0b0;
+    color: white;
+    font-weight: bold;
+
+    &::after {
+      content: "○";
+    }
+  }
+
+  &[data-correct="false"].reveal.clicked {
+    background-color: #ff4d4d;
+    color: white;
+    font-weight: bold;
+
+    &::after {
+      content: "✖️";
+    }
+  }
+}
+
+.table .icon {
+  width: 64px;
+  height: 64px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+  &.blue {
+    background-image: url("/blue.svg");
+  }
+
+  &.yellow {
+    background-image: url("/yellow.svg");
+  }
+
+  &.red {
+    background-image: url("/red.svg");
+  }
+}
+
+@media (max-width: 400px) {
+  .table button {
+    width: 42px;
+    height: 42px;
+    padding: 8px;
+  }
+
+  .table .icon {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.subtle {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+div.line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+div.marker {
+  height: 38px;
+  width: 38px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: 12px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.65));
+
+  &.circle {
+    background-image: url("/marker_circle.svg");
+  }
+
+  &.cross {
+    background-image: url("/marker_cross.svg");
+  }
+
+  &.triangle {
+    background-image: url("/marker_triangle.svg");
+  }
+
+  &.square {
+    background-image: url("/marker_square.svg");
+  }
+}
+
+div.debuff {
+  height: 38px;
+  width: 38px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: 12px;
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.65));
+
+  &.alpha {
+    background-image: url("/debuff_alpha.svg");
+  }
+
+  &.beta {
+    background-image: url("/debuff_beta.svg");
+  }
+}
