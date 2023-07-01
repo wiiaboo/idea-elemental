@@ -70,10 +70,15 @@ function App() {
           <br />
           {t("YourDebuff")} {myDebuff === 0 ? "α" : "β"}
         </h2>
-        <label>
-          <input type="checkbox" onChange={updateMode} />
-          {t("IdeaElemental2")}
-        </label>
+        <div className="checkbox-wrapper-13">
+          <input
+            id="c1-13"
+            type="checkbox"
+            onChange={updateMode}
+            checked={ideaElementalII}
+          />
+          <label htmlFor="c1-13">{t("IdeaElemental2")}</label>
+        </div>
         <div className="table">
           {board.map((cell, i) =>
             cell === undefined ? (

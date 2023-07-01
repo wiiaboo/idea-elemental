@@ -12,11 +12,8 @@
 div.table {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-}
-
-table {
-  border: 0;
-  border-collapse: collapse;
+  margin-top: 16px;
+  margin-bottom: 32px;
 }
 
 .table button {
@@ -93,5 +90,4 @@ h2 {
 .subtle {
   color: #888;
   font-size: 0.85rem;
-  margin-top: 32px;
 }
