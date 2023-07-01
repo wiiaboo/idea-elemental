@@ -37,7 +37,6 @@ function chooseSymbol() {
       }
     }
   }
-  console.log(symbolMap)
   const nextSymbol = symbolMap[Math.floor(Math.random() * symbolMap.length)];
   prevSymbol = nextSymbol;
   return nextSymbol;
