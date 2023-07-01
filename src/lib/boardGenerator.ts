@@ -6,6 +6,46 @@ export enum SymbolColor {
   Yellow = 3,
 }
 
+export const ANSWER_CELL = -2;
+
+let prevSymbol = -1;
+
+function chooseBoard() {
+  return Math.floor(Math.random() * availableBoards.length);
+}
+
+function chooseSymbol() {
+  const symbolMap = [];
+  for (let symbol = 0; symbol < 4; symbol++) {
+    symbolMap.push(symbol);
+    if (symbol !== prevSymbol) {
+      symbolMap.push(symbol);
+      symbolMap.push(symbol);
+      symbolMap.push(symbol);
+    } else {
+      if (prevSymbol !== 0) {
+        symbolMap.push(0);
+      }
+      if (prevSymbol !== 1) {
+        symbolMap.push(1);
+      }
+      if (prevSymbol !== 2) {
+        symbolMap.push(2);
+      }
+      if (prevSymbol !== 3) {
+        symbolMap.push(3);
+      }
+    }
+  }
+  const nextSymbol = symbolMap[Math.floor(Math.random() * symbolMap.length)];
+  prevSymbol = nextSymbol;
+  return nextSymbol;
+}
+
+function chooseDebuff() {
+  return Math.floor(Math.random() * 2);
+}
+
 function expandBoard(baseBoard: number[][]) {
   const board = [
     [0, -1, 0, -1, 0, -1, 0],
@@ -44,18 +84,6 @@ function findSibling(
     siblings.push([x, y + 1]);
   }
   return siblings;
-}
-
-function chooseBoard() {
-  return Math.floor(Math.random() * availableBoards.length);
-}
-
-function chooseSymbol() {
-  return Math.floor(Math.random() * 4);
-}
-
-function chooseDebuff() {
-  return Math.floor(Math.random() * 2);
 }
 
 export function findBlueSymbol(
@@ -134,7 +162,7 @@ export const generateBoard = (ideaElementalII = false) => {
     answerPosition[1] = 6 - answerPosition[1];
   }
 
-  board[answerPosition[0]][answerPosition[1]] = -2;
+  board[answerPosition[0]][answerPosition[1]] = ANSWER_CELL;
 
   return { board: board.flatMap((a) => a), mySymbol, myDebuff, boardId };
 };
