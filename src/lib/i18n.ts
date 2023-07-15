@@ -6,7 +6,7 @@ const resources = {
     translation: {
       YourSymbol: "YourMarker:",
       YourDebuff: "YourDebuff:",
-      IdeaElemental2: "Idea Elemental II",
+      IdeaElemental2: "Classical Concept 2",
     },
   },
   ja: {
